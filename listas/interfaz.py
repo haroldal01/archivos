@@ -12,6 +12,10 @@ Indexada = ListaIndexada()
 
 def abrir_nueva_ventana(tipo):
 
+    def habilitar():
+        btnIndice.config(state="normal")
+        entradaIndice.config(state="normal")
+
     def leer_texto():
         texto = entrada.get()
         
@@ -30,8 +34,6 @@ def abrir_nueva_ventana(tipo):
         elif tipo == "indexada":
             Indexada.insertar(texto)
 
-
-
     def eliminar_dato():
         datoEliminado = int(entradaEliminar.get())
         if tipo == "contigua":
@@ -48,11 +50,10 @@ def abrir_nueva_ventana(tipo):
 
         elif tipo == "indexada":
             print("indexada")
+            habilitar()  # Habilita los elementos al intentar eliminar en lista indexada
 
-
-    nueva_ventana = tk.Toplevel(ventana)  # Crear una nueva ventana
-    nueva_ventana.title("Nueva Ventana")
-    nueva_ventana.geometry("250x250")
+    nueva_ventana = tk.Toplevel(ventana) 
+    nueva_ventana.geometry("290x300")
     
     etiqueta = tk.Label(nueva_ventana, text="Ingrese el dato")
     etiqueta.pack(pady=5)
@@ -63,7 +64,7 @@ def abrir_nueva_ventana(tipo):
     btnInsertar = tk.Button(nueva_ventana, text="Insertar", command=leer_texto)
     btnInsertar.pack(pady=5)
 
-    etiquetaEliminar = tk.Label(nueva_ventana, text="Escriba el indice del dato que eliminará")
+    etiquetaEliminar = tk.Label(nueva_ventana, text="Escriba el índice del dato que eliminará")
     etiquetaEliminar.pack(pady=5)
 
     entradaEliminar = tk.Entry(nueva_ventana)
@@ -72,10 +73,18 @@ def abrir_nueva_ventana(tipo):
     btnEliminar = tk.Button(nueva_ventana, text="Eliminar", command=eliminar_dato)
     btnEliminar.pack(pady=5)
 
-
     btnMostrar = tk.Button(nueva_ventana, text="Mostrar datos", command=leer_texto)
     btnMostrar.pack(pady=5)
 
+    btnIndice = tk.Button(nueva_ventana, text="Ingrese el tamaño de la lista indexada (máximo 10)", state="disabled")
+    btnIndice.pack(pady=5)
+
+    entradaIndice = tk.Entry(nueva_ventana, state="disabled")
+    entradaIndice.pack(pady=5)
+
+    # Si el tipo es "indexada", habilitar los elementos inmediatamente
+    if tipo == "indexada":
+        habilitar()
 
 
 
