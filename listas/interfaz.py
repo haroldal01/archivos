@@ -1,9 +1,58 @@
 import tkinter as tk
+from listaContigua import ListaContigua
+from listaLigada import ListaLigada
+from dobleLigada import ListaDoblemeteLigada
+from listaIndexada import ListaIndexada
+
+
+Contigua = ListaContigua()
+Ligada = ListaLigada()
+Doble = ListaDoblemeteLigada()
+Indexada = ListaIndexada()
 
 def abrir_nueva_ventana(tipo):
+
+    def leer_texto():
+        texto = entrada.get()
+        
+        if tipo == "contigua":
+            Contigua.ingresar(texto)
+            Contigua.mostrar()
+
+        elif tipo == "ligadaSimple":
+            Ligada.add(texto)
+            Ligada.show()
+
+        elif tipo == "doble":
+            Doble.add(texto)
+            Doble.show()
+
+        elif tipo == "indexada":
+            Indexada.insertar(texto)
+
+
+
+    def eliminar_dato():
+        datoEliminado = int(entradaEliminar.get())
+        if tipo == "contigua":
+            Contigua.eliminar(datoEliminado)
+            Contigua.mostrar()
+
+        elif tipo == "ligadaSimple":
+            Ligada.delete(datoEliminado)
+            Ligada.show()
+
+        elif tipo == "doble":
+            Doble.delete(datoEliminado)
+            Doble.show()
+
+        elif tipo == "indexada":
+            print("indexada")
+
+
     nueva_ventana = tk.Toplevel(ventana)  # Crear una nueva ventana
     nueva_ventana.title("Nueva Ventana")
-    nueva_ventana.geometry("250x200")
+    nueva_ventana.geometry("250x250")
     
     etiqueta = tk.Label(nueva_ventana, text="Ingrese el dato")
     etiqueta.pack(pady=5)
@@ -11,27 +60,18 @@ def abrir_nueva_ventana(tipo):
     entrada = tk.Entry(nueva_ventana)
     entrada.pack(pady=5)
 
-    def leer_texto():
-        texto = entrada.get()
-        
-        if tipo == "contigua":
-            print("contigua")
-
-        elif tipo == "ligadaSimple":
-            print("ligada")
-
-        elif tipo == "doble":
-            print("doble")
-
-        elif tipo == "indexada":
-            print("indexada")
-        
-
     btnInsertar = tk.Button(nueva_ventana, text="Insertar", command=leer_texto)
     btnInsertar.pack(pady=5)
 
-    btnEliminar = tk.Button(nueva_ventana, text="Eliminar", command=leer_texto)
+    etiquetaEliminar = tk.Label(nueva_ventana, text="Escriba el indice del dato que eliminará")
+    etiquetaEliminar.pack(pady=5)
+
+    entradaEliminar = tk.Entry(nueva_ventana)
+    entradaEliminar.pack(pady=5)
+
+    btnEliminar = tk.Button(nueva_ventana, text="Eliminar", command=eliminar_dato)
     btnEliminar.pack(pady=5)
+
 
     btnMostrar = tk.Button(nueva_ventana, text="Mostrar datos", command=leer_texto)
     btnMostrar.pack(pady=5)
