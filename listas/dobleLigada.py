@@ -36,7 +36,13 @@ class ListaDoblemeteLigada:
 
     def show(self):
         current = self.head
+        imprimir = ""
+
         while current:
-            print(current.data, end=' ')
+            imprimir += str(current.data + "<->")
             current = current.next
-        print()
+
+
+        return imprimir 
+    
+     

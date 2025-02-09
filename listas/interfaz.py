@@ -1,4 +1,6 @@
 import tkinter as tk
+import warnings
+from tkinter import messagebox
 from listaContigua import ListaContigua
 from listaLigada import ListaLigada
 from dobleLigada import ListaDoblemeteLigada
@@ -6,7 +8,8 @@ from listaIndexada import ListaIndexada
 
 
 Contigua = ListaContigua()
-Ligada = ListaLigada()
+indice = 10
+Ligada = ListaLigada(indice)
 Doble = ListaDoblemeteLigada()
 Indexada = ListaIndexada()
 
@@ -21,19 +24,21 @@ def abrir_nueva_ventana(tipo):
         
         if tipo == "contigua":
             Contigua.ingresar(texto)
-            Contigua.mostrar()
 
         elif tipo == "ligadaSimple":
             Ligada.add(texto)
-            Ligada.show()
 
         elif tipo == "doble":
             Doble.add(texto)
-            Doble.show()
+            
 
         elif tipo == "indexada":
-            Indexada.insertar(texto)
-
+            if Indexada.n < indice:
+                Indexada.insertar(texto)
+            else:
+                messagebox.showwarning("Advertencia", "La lista está llena.")
+                
+ 
     def eliminar_dato():
         datoEliminado = int(entradaEliminar.get())
         if tipo == "contigua":
@@ -49,8 +54,41 @@ def abrir_nueva_ventana(tipo):
             Doble.show()
 
         elif tipo == "indexada":
-            print("indexada")
-            habilitar()  # Habilita los elementos al intentar eliminar en lista indexada
+            Indexada.eliminar(datoEliminado)
+
+            habilitar()  
+    
+
+    def leer_indice():
+        global indice
+        try:
+            indice = int(entradaIndice.get())
+            Indexada = ListaIndexada(indice) 
+        except ValueError:
+            warnings.warn("HUbo un error", UserWarning)
+
+
+    def mostrar_datos():
+        if tipo == "contigua":
+           datosContigua = Contigua.mostrar()
+           messagebox.showinfo("Lista de elementos", datosContigua)
+
+
+        elif tipo == "ligadaSimple":
+            datosLigada = Ligada.show()
+            messagebox.showinfo("Lista de elementos", datosLigada)
+
+
+        elif tipo == "doble":
+            datosDoble = Doble.show()
+            messagebox.showinfo("Lista de elementos", datosDoble)
+
+
+        elif tipo == "indexada":
+             datosIndexada = Indexada.mostrar()
+             messagebox.showinfo("Lista de elementos",datosIndexada)
+
+
 
     nueva_ventana = tk.Toplevel(ventana) 
     nueva_ventana.geometry("290x300")
@@ -73,16 +111,15 @@ def abrir_nueva_ventana(tipo):
     btnEliminar = tk.Button(nueva_ventana, text="Eliminar", command=eliminar_dato)
     btnEliminar.pack(pady=5)
 
-    btnMostrar = tk.Button(nueva_ventana, text="Mostrar datos", command=leer_texto)
+    btnMostrar = tk.Button(nueva_ventana, text="Mostrar datos", command=mostrar_datos)
     btnMostrar.pack(pady=5)
 
-    btnIndice = tk.Button(nueva_ventana, text="Ingrese el tamaño de la lista indexada (máximo 10)", state="disabled")
+    btnIndice = tk.Button(nueva_ventana, text="Ingrese el tamaño de la lista indexada (máximo 10)",command = leer_indice, state="disabled")
     btnIndice.pack(pady=5)
 
     entradaIndice = tk.Entry(nueva_ventana, state="disabled")
     entradaIndice.pack(pady=5)
 
-    # Si el tipo es "indexada", habilitar los elementos inmediatamente
     if tipo == "indexada":
         habilitar()
 
@@ -108,7 +145,7 @@ ventana.geometry("300x200")
 
 
 boton1 = tk.Button(ventana, text="Lista Contigua (Arreglo)", command=accion_ListaContigua)
-boton1.pack(pady=5)  # Agrega espaciado entre botones
+boton1.pack(pady=5)  
 
 boton2 = tk.Button(ventana, text="Lista Ligada (Simple)", command=accion_ListaLigadaSimple)
 boton2.pack(pady=5)

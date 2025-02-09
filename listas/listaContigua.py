@@ -24,7 +24,9 @@ class ListaContigua:
     
     def mostrar(self):
         
-        print("Lista Contigua:", [self.lista[i] for i in range(self.n)])
+        return "Lista Contigua:", [self.lista[i] for i in range(self.n)]
+
+    
 
 
 
